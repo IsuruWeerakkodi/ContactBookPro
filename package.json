@@ -2,6 +2,7 @@
   "name": "contactbookpro",
   "version": "1.0.0",
   "main": "src/main.ts",
+  "type": "module",
   "scripts": {
     "compile": "tsc --watch",
     "start": "nodemon --enable-source-maps dist/main.js"

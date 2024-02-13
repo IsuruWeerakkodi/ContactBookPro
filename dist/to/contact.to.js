@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ContactTO = void 0;
-class ContactTO {
+export class ContactTO {
     id;
     name;
     description;
@@ -15,5 +12,4 @@ class ContactTO {
         this.email = email;
     }
 }
-exports.ContactTO = ContactTO;
 //# sourceMappingURL=contact.to.js.map
