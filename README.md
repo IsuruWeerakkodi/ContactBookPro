@@ -1,7 +1,4 @@
-// Write this code in a file named generateReadme.ts
 
-// Define the content for the README.md file
-const readmeContent = `
 # Contact Book Pro
 
 Contact Book Pro is a simple Node.js application that provides HTTP endpoints to manage contacts.
@@ -10,16 +7,16 @@ Contact Book Pro is a simple Node.js application that provides HTTP endpoints to
 
 1. Clone the repository:
 
-\`\`\`bash
+```bash
 git clone <repository_url>
 cd ContactBookPro
-\`\`\`
+```
 
 2. Install dependencies:
 
-\`\`\`bash
+```bash
 npm install
-\`\`\`
+```
 
 3. Configure the database:
 
@@ -27,9 +24,9 @@ npm install
 
 4. Start the server:
 
-\`\`\`bash
+```bash
 npm start
-\`\`\`
+```
 
 ## Usage
 
@@ -69,7 +66,8 @@ Contributions are welcome! Please open an issue or pull request for any improvem
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
-`;
+This project is licensed under the [MIT License](LICENSE)
 
-
+## Copyright
+&copy; Isuru Weerakkodi 2024
+www.isuruweerakkodi.com
