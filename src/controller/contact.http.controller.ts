@@ -9,7 +9,7 @@ controller.get('/', getAllContacts);
 controller.get('/:id', getContactByName);
 controller.post('/', saveContact);
 controller.patch('/:id', updateContact);
-controller.delete('./:id', deleteContact)
+controller.delete('/:id', deleteContact)
 export {controller as TaskHttpController};
 
 const pool = mysql.createPool({

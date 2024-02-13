@@ -12,7 +12,7 @@ controller.get('/', getAllContacts);
 controller.get('/:id', getContactByName);
 controller.post('/', saveContact);
 controller.patch('/:id', updateContact);
-controller.delete('./:id', deleteContact);
+controller.delete('/:id', deleteContact);
 const pool = promise_1.default.createPool({
     database: 'contact_book_pro',
     port: 3306,
