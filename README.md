@@ -38,6 +38,8 @@ The application provides the following HTTP endpoints to manage contacts:
 - **PATCH /api/v1/contact/:id**: Update an existing contact by ID.
 - **DELETE /api/v1/contact/:id**: Delete a contact by ID.
 
+- The photos are saved as multipart form data in the uploads directory in the project, which is not included in the github 
+
 ### Request and Response Formats
 
 - **GET /api/v1/contact**:
