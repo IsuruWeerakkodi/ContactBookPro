@@ -2,13 +2,22 @@ import {Router} from "express";
 import {Request, Response} from "express-serve-static-core";
 import mysql, {ResultSetHeader} from 'mysql2/promise';
 import {ContactTO} from "../to/contact.to.js";
+import multer from "multer";
+import fs from 'node:fs/promises';
+import * as path from "path";
 
 const controller = Router();
+const multipart = multer();
+
+// multipart.none()
+// multipart.single('field name') -> req.file
+// multipart.array('field name') -> req.files
+// multipart.any() -> req.files['field name']
 
 controller.get('/', getAllContacts);
 controller.get('/:name', getContactByName);
-controller.post('/', saveContact);
-controller.patch('/:id', updateContact);
+controller.post('/', multipart.single('picture'), saveContact);
+controller.patch('/:id', multipart.any(), updateContact);
 controller.delete('/:id', deleteContact)
 export {controller as ContactHttpController};
 
@@ -48,22 +57,30 @@ async function getContactByName(req:Request, res:Response) {
     }
 }
 async function saveContact(req: Request, res: Response) {
-    const contact = <ContactTO> req.body;
     const connection = await pool.getConnection();
     try {
-        const [{ insertId }] = await connection.execute<ResultSetHeader>(
-            'INSERT INTO contacts(id, name, description, phone, email) VALUES (?, ?, ?, ?, ?)',
-            [contact.id, contact.name, contact.description, contact.phone, contact.email]
+        const contact = <ContactTO> req.body;
+
+
+        const filePath = path.resolve('uploads', req.file?.originalname!);
+        await fs.writeFile(filePath, req.file?.buffer!);
+
+
+        const [result] = await connection.execute<ResultSetHeader>(
+            'INSERT INTO contacts(id, name, description, phone, email, picture) VALUES (?, ?, ?, ?, ?, ?)',
+            [contact.id, contact.name, contact.description, contact.phone, contact.email, filePath]
         );
+        const insertId = result.insertId;
         contact.id = insertId;
+
         res.status(201).json(contact);
     } catch (error) {
         console.error('Error saving contact:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ error: 'Internal server error ' });
     } finally {
-        if (connection) {
-            pool.releaseConnection(connection);
-        }
+
+        pool.releaseConnection(connection);
+
     }
 }
 
@@ -78,8 +95,8 @@ async function updateContact(req:Request, res:Response) {
     }
     else{
         await connection.execute
-            ('UPDATE contacts SET name = ?, description = ?, phone = ?, email = ? WHERE id=?',
-                [contact.name, contact.description, contact.phone, contact.email, contactId]);
+            ('UPDATE contacts SET name = ?, description = ?, phone = ?, email = ?, picture = ? WHERE id=?',
+                [contact.name, contact.description, contact.phone, contact.email,  contactId]);
         res.sendStatus(204);
     }
     pool.releaseConnection(connection);
