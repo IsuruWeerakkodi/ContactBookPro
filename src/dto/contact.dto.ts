@@ -1,10 +1,13 @@
-import {IsNotEmpty, Matches} from "class-validator";
+import {IsNotEmpty, IsNumber, Matches, MinLength} from "class-validator";
 
 export class ContactDto {
     @IsNotEmpty()
+    @IsNumber()
     id!: number;
 
     @IsNotEmpty()
+    @MinLength(3)
+    @Matches(/^[A-Za-z ]+$/)
     name!: string;
 
     description!:string;

@@ -1,5 +1,4 @@
-import {Router} from "express";
-import {Request, Response} from "express-serve-static-core";
+import {Router, Request, Response} from "express";
 import mysql, {ResultSetHeader} from 'mysql2/promise';
 import {ContactDto} from "../dto/contact.dto";
 import multer from "multer";
@@ -71,12 +70,11 @@ async function saveContact(req: Request, res: Response) {
         return parts[parts.length - 1];
     }
 
-
     try {
         const contact = Object.assign(new ContactDto(), req.body);
         await validateOrReject(contact);
 
-        const filePath = path.resolve('uploads', `${contact.id}.${getExtension(req.file?.originalname!)}');
+        const filePath = path.resolve('uploads', `${contact.id}.${getExtension(req.file?.originalname!)}`);
         await fs.writeFile(filePath, req.file?.buffer!);
 
 
