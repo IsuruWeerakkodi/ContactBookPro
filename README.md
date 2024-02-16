@@ -64,7 +64,7 @@ The application provides the following HTTP endpoints to manage contacts:
 
 ## Special components of the app
 
-  - For additional information about data passing, data validation, and websockets which we used in this app [click here](ADDITIONALINFO.md)
+  - For additional information about data passing, data validation, and websockets which were used in this app [click here](ADDITIONALINFO.md)
 
 ## Contributing
 
