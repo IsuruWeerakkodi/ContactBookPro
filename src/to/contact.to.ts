@@ -1,6 +1,5 @@
-import path from "node:path";
-
 export class ContactTO{
+
     constructor( public id: number,
                  public name: string,
                  public description:string,

@@ -9,6 +9,11 @@ import * as path from "path";
 const controller = Router();
 const multipart = multer();
 
+/*
+there are inbuilt middleware for json and x-www-form-urlencoded
+but not for multipart form data, so we install middleware named mulder and use it in app as below
+*/
+
 // multipart.none()
 // multipart.single('field name') -> req.file
 // multipart.array('field name') -> req.files
@@ -18,7 +23,7 @@ controller.get('/', getAllContacts);
 controller.get('/:name', getContactByName);
 controller.post('/', multipart.single('picture'), saveContact);
 controller.patch('/:id', multipart.any(), updateContact);
-controller.delete('/:id', deleteContact)
+controller.delete('/:id', deleteContact);
 export {controller as ContactHttpController};
 
 const pool = mysql.createPool({
