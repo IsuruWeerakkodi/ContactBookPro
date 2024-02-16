@@ -62,6 +62,44 @@ The application provides the following HTTP endpoints to manage contacts:
   - Request: URL parameter \`id\` specifying the ID of the contact to delete.
   - Response: Status code 204 No Content if the deletion is successful, or an error message if the contact is not found or the delete operation fails.
 
+## Special components of the app
+
+  ### Data passing
+  Data can be sent to this app using 3 types (Generally we use these 3 types to pass data through request)
+  
+  #### 1. JSON
+  - Express has inbuilt middleware for JSON
+  - We can ```import {json} form "express"``` ,  and use it where needed in the app by ``` app.use(json())```
+  #### 2. X-www-form-urlencoded
+  - For this also, we have inbuilt middleware with express
+  - But, ```urlencoded``` by default use a deprecated directory named ```body-parser```.
+  - So, we need to use new directory for this, named ```extended```
+  - So we need to use ```app.use(urlencoded({extended:true}))``` where this is used in the app
+  #### 3. multipart form data
+  - There is no inbuilt middleware with express for this, so we need to install it externally. 
+    - It is named [multer](https://www.npmjs.com/package/multer)
+      
+    ```bash
+            npm i multer && npm i -D @types/multer
+    ```
+
+  ### Data Validation
+  - Data validation can be done in node applications with decorations (called annotations in some languages) by [class-validator](https://www.npmjs.com/package/class-validator)
+  - This can't be used with ecmascript, but with typescript.
+  - Install it as follows
+    ```bash
+            npm i class-validator
+    ```
+
+  - Then set typescript configurations as follows.
+    - In tsconfig.json under Languages and Environment,
+      - experimental Decorators: true,
+      - emitDecoratorMetadata: true
+  - Use needed decorators in DTO (data transfer object) of your app
+  - After adding decorators, to use it in a function to an object,
+    ```await validateOrReject(object)```
+  - Use try catch blocks as needed for error handling.
+
 ## Contributing
 
 Contributions are welcome! Please open an issue or pull request for any improvements or fixes.
