@@ -19,5 +19,5 @@ class ContactTO {
 }
 exports.ContactTO = ContactTO;
 // Use Buffer type for binary data
-//const contact = new ContactTO(1, 'John Doe', 'Description', '1234567890', 'john@example.com', Buffer.from('binary_data'));
+//const contact = new ContactDto(1, 'John Doe', 'Description', '1234567890', 'john@example.com', Buffer.from('binary_data'));
 //# sourceMappingURL=contact.to.js.map

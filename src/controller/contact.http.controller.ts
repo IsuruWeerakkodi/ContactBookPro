@@ -1,10 +1,11 @@
 import {Router} from "express";
 import {Request, Response} from "express-serve-static-core";
 import mysql, {ResultSetHeader} from 'mysql2/promise';
-import {ContactTO} from "../to/contact.to.js";
+import {ContactDto} from "../dto/contact.dto";
 import multer from "multer";
 import fs from 'node:fs/promises';
 import * as path from "path";
+import {validateOrReject} from "class-validator";
 
 const controller = Router();
 const multipart = multer();
@@ -63,11 +64,19 @@ async function getContactByName(req:Request, res:Response) {
 }
 async function saveContact(req: Request, res: Response) {
     const connection = await pool.getConnection();
+
+    function getExtension(filename: string | undefined): string {
+        if (!filename) return '';
+        const parts = filename.split('.');
+        return parts[parts.length - 1];
+    }
+
+
     try {
-        const contact = <ContactTO> req.body;
+        const contact = Object.assign(new ContactDto(), req.body);
+        await validateOrReject(contact);
 
-
-        const filePath = path.resolve('uploads', req.file?.originalname!);
+        const filePath = path.resolve('uploads', `${contact.id}.${getExtension(req.file?.originalname!)}');
         await fs.writeFile(filePath, req.file?.buffer!);
 
 
@@ -91,7 +100,7 @@ async function saveContact(req: Request, res: Response) {
 
 async function updateContact(req:Request, res:Response) {
     const contactId = +req.params.id;
-    const contact =<ContactTO> req.body;
+    const contact =<ContactDto> req.body;
     const connection =await pool.getConnection();
     const result = await connection.execute('SELECT * FROM contacts WHERE id = ?', [contactId]);
     if (!result.length){
